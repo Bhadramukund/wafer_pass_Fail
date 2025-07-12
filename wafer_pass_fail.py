@@ -2,16 +2,21 @@ import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="Wafer Pass/Fail Predictor")
+st.title("🔬 Wafer Pass/Fail Prediction App")
 
-st.title("Wafer Pass/Fail Prediction App")
+# File uploader
+uploaded_file = st.file_uploader("📤 Upload your wafer dataset (CSV)", type=["csv"])
 
-# Load dataset
-try:
-    df = pd.read_csv("wafer.csv")
-    st.write("### Sample of wafer dataset:")
-    st.dataframe(df.head())
-except FileNotFoundError:
-    st.error("⚠️ wafer.csv file not found. Please check if it's uploaded in the repo.")
+if uploaded_file is not None:
+    try:
+        df = pd.read_csv(uploaded_file)
+        st.success("✅ File uploaded successfully!")
+        st.write("### 📊 Sample of wafer dataset:")
+        st.dataframe(df.head())
+    except Exception as e:
+        st.error(f"❌ Error reading file: {e}")
+else:
+    st.info("👈 Please upload a wafer CSV file to begin.")
 
 # Add more logic or model loading below
 
